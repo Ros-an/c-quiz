@@ -1,16 +1,19 @@
 import React, { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 export type Questions = {
   category: string;
   type: string;
   difficulty: string;
   question: string;
+  code: string;
   correct_answer: string;
-  incorrect_answers: string[];
+  options: string[];
 };
 export type ResponseData = {
   success: boolean;
-  question: Questions[];
+  questions: Questions[];
 };
 export type GlobalContextType = {
   loading: boolean;
@@ -18,6 +21,13 @@ export type GlobalContextType = {
   correct: number;
   index: number;
   categorySelect: any;
+  nextQuestion: any;
+  resetScore: any;
+  resetIndex: any;
+  increaseScore: any;
+  error: boolean;
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCorrect: React.Dispatch<React.SetStateAction<number>>;
 };
 export type ServerError = {
   success: false;
@@ -27,11 +37,13 @@ export type ServerError = {
 export const GlobalContext = createContext({} as GlobalContextType);
 
 export const GlobalContextProvider: React.FC = ({ children }) => {
+  const { isAuthenticated, loginWithRedirect } = useAuth0<any>();
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<Questions[] | []>([]);
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  let navigate = useNavigate();
 
   async function fetchQuestions(url: string) {
     setLoading(true);
@@ -39,30 +51,68 @@ export const GlobalContextProvider: React.FC = ({ children }) => {
       const response = await axios.get<ResponseData>(url);
       console.log(response.data);
       if (response.data.success && response.status === 200) {
-        setQuestions(response.data.question);
+        setQuestions(response.data.questions);
+        navigate(`/quizstart`);
+      } else {
+        setError(true);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const serverError = err as AxiosError<ServerError>;
         if (serverError && serverError.response) {
-          setError(serverError.response.data.message);
+          console.log(serverError.response.data);
         }
       }
+      setError(true);
+      console.log("error found", err);
     }
     setLoading(false);
   }
   const categorySelect = (value: string) => {
     console.log(value);
-    const url = `https://quiz-backend.rosan.repl.co/api/categories/${value}`;
-    fetchQuestions(url);
+    if (isAuthenticated) {
+      const url = `https://quiz-backend.rosan.repl.co/api/categories/${value}`;
+      fetchQuestions(url);
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  const nextQuestion = () => {
+    if (index >= questions.length - 1) {
+      navigate("/scoreboard");
+    }
+    setIndex((oldIndex) => {
+      const index = oldIndex + 1;
+      if (index > questions.length - 1) {
+        return 0;
+      }
+      return index;
+    });
+  };
+  const resetScore = () => {
+    setCorrect(0);
+  };
+  const resetIndex = () => {
+    setIndex(0);
+  };
+  const increaseScore = () => {
+    setCorrect((old) => old + 1);
   };
   return (
     <GlobalContext.Provider
       value={{
         loading,
+        nextQuestion,
+        setIndex,
+        setCorrect,
+        resetScore,
+        resetIndex,
+        increaseScore,
         questions,
         index,
         correct,
+        error,
         categorySelect,
       }}
     >
