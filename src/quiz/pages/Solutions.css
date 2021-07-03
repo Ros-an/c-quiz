@@ -7,18 +7,35 @@
   position: absolute;
   left: 1rem;
   top: 0;
-  transform: translateY(50%);
 }
 .solution__heading h2 {
   padding: 1rem 0;
 }
 
 .solution__body {
-  margin: 0 auto;
-  width: 50rem;
+  margin: 0 20vw;
   padding: 1rem 0;
 }
 .solution__body .question {
   padding: 2rem 0;
   border-bottom: 1px solid var(--color-head);
+}
+.solution__body .question .code {
+  overflow-x: scroll;
+}
+@media screen and (max-width: 650px) {
+  .solution__body {
+    margin: 0 1rem;
+    padding: 0.5rem 0;
+  }
+  .solution__heading a {
+    position: absolute;
+    left: 0.25rem;
+    top: 0;
+  }
+  .solution__heading h2 {
+    font-size: 1.75rem;
+    transition: all 0.2s linear;
+    padding: 0.5rem 0;
+  }
 }

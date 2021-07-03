@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Heading, Text, Button } from "@chakra-ui/react";
 import { useGlobalContext } from "../../context-api/GlobalContext";
 import { useNavigate, Navigate } from "react-router-dom";
-
+import Code from "../components/Code";
 import "./Quiz.css";
 type Obj = {
   condition: string;
@@ -74,11 +74,7 @@ function Quiz() {
             </div>
             <div className="quiz-question__body">
               <Text fontSize="1.25rem">{question}</Text>
-              {code && (
-                <Text fontSize="1xl">
-                  <pre>{code}</pre>
-                </Text>
-              )}
+              {code && <Code code={code} />}
               <div className="options">
                 {options.map((option) => {
                   return (

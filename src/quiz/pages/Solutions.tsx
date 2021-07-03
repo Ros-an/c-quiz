@@ -17,15 +17,21 @@ function Solutions() {
               Solution({questions[0].category.toUpperCase()})
             </Heading>
             <Link to="/">
-              <Button colorScheme="blue">Home</Button>
+              <Button>
+                <i className="fas fa-home"></i>
+              </Button>
             </Link>
           </div>
           <ol className="solution__body">
             {questions.map((quest, index) => {
               return (
                 <li className="question" key={index}>
-                  {`${quest.question}`}
-                  {quest.code && <pre>{quest.code}</pre>} <br />
+                  {`${quest.question}`} <br />
+                  {quest.code && (
+                    <div className="code">
+                      <pre>{quest.code}</pre>
+                    </div>
+                  )}
                   {`Answer - ${quest.correct_answer}`}
                 </li>
               );
