@@ -5,7 +5,7 @@ import { Avatar, WrapItem } from "@chakra-ui/react";
 
 function Navbar() {
   const { user, isAuthenticated, logout, loginWithRedirect } = useAuth0<any>();
-  console.log(user);
+
   return (
     <nav className="head-section__nav">
       {!isAuthenticated && (
@@ -31,14 +31,14 @@ function Navbar() {
         {!isAuthenticated && (
           <button onClick={() => loginWithRedirect()}>
             <i className="fas fa-sign-in-alt"></i>
-            {` Log In`}
+            {` Login`}
           </button>
         )}
         {"  "}
         {isAuthenticated && (
           <button onClick={() => logout({ returnTo: window.location.origin })}>
             <i className="fas fa-sign-out-alt"></i>
-            {` Log Out`}
+            {` Logout`}
           </button>
         )}
       </div>
