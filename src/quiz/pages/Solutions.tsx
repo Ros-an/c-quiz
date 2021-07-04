@@ -14,10 +14,10 @@ function Solutions() {
         <>
           <div className="solution__heading">
             <Heading as="h2">
-              Solution({questions[0].category.toUpperCase()})
+              Solution <br /> ({questions[0].category.toUpperCase()})
             </Heading>
             <Link to="/">
-              <Button>
+              <Button colorScheme="teal">
                 <i className="fas fa-home"></i>
               </Button>
             </Link>
@@ -32,7 +32,13 @@ function Solutions() {
                       <pre>{quest.code}</pre>
                     </div>
                   )}
-                  {`Answer - ${quest.correct_answer}`}
+                  <ul className="options">
+                    {quest.options.map((opt, index) => (
+                      <li key={index}>{opt}</li>
+                    ))}
+                  </ul>
+                  <strong>Answer:</strong> <br />
+                  {`${quest.correct_answer}`}
                 </li>
               );
             })}
