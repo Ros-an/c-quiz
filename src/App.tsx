@@ -8,14 +8,16 @@ import ScoreBoard from "./quiz/pages/ScoreBoard";
 import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./shared/components/PageNotFound";
 import Error from "./shared/components/Error";
+import { useAuth0 } from "@auth0/auth0-react";
 import Solutions from "./quiz/pages/Solutions";
 function App() {
-  const { loading, error } = useGlobalContext();
-  console.log(error);
-  if (loading) {
+  const { loading, isError } = useGlobalContext();
+  const { isLoading, error } = useAuth0();
+
+  if (loading || isLoading) {
     return <Loader />;
   }
-  if (error) {
+  if (isError || error) {
     return <Error />;
   }
   return (
