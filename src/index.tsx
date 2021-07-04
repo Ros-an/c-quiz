@@ -13,6 +13,7 @@ ReactDOM.render(
       domain="dev-p5e8shnz.us.auth0.com"
       clientId="P1Dvcls6tgBIbZUI2tuxF3TGEx6d0AmF"
       redirectUri={window.location.origin}
+      cacheLocation='localstorage'
     >
       <Router>
         <GlobalContextProvider>
