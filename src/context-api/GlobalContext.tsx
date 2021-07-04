@@ -25,9 +25,11 @@ export type GlobalContextType = {
   resetScore: any;
   resetIndex: any;
   increaseScore: any;
-  error: boolean;
+  isError: boolean;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setCorrect: React.Dispatch<React.SetStateAction<number>>;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setQuestions: React.Dispatch<React.SetStateAction<[] | Questions[]>>;
 };
 export type ServerError = {
   success: false;
@@ -42,7 +44,7 @@ export const GlobalContextProvider: React.FC = ({ children }) => {
   const [questions, setQuestions] = useState<Questions[] | []>([]);
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
-  const [error, setError] = useState(false);
+  const [isError, setError] = useState(false);
   let navigate = useNavigate();
 
   async function fetchQuestions(url: string) {
@@ -102,6 +104,7 @@ export const GlobalContextProvider: React.FC = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        setQuestions,
         loading,
         nextQuestion,
         setIndex,
@@ -112,7 +115,8 @@ export const GlobalContextProvider: React.FC = ({ children }) => {
         questions,
         index,
         correct,
-        error,
+        isError,
+        setError,
         categorySelect,
       }}
     >
