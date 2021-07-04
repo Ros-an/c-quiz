@@ -1,143 +1,57 @@
-import React, { useState } from "react";
-import { Heading, Text, Button } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { useGlobalContext } from "../../context-api/GlobalContext";
-import { useNavigate, Navigate } from "react-router-dom";
-import Code from "../components/Code";
-import "./Quiz.css";
-type Obj = {
-  condition: string;
-  selection: string;
-  disable: boolean;
-};
-function Quiz() {
-  const {
-    questions,
-    index,
-    nextQuestion,
-    resetIndex,
-    correct,
-    resetScore,
-    increaseScore,
-  } = useGlobalContext();
-  let navigate = useNavigate();
-  const [isRight, setIsRight] = useState<Obj>({
-    condition: "",
-    selection: "",
-    disable: false,
-  });
+import Loader from "../../shared/components/Loader";
+import QuizQuestion from "../components/QuizQuestion";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import {
+  Questions,
+  ServerError,
+  ResponseData,
+} from "../../context-api/GlobalContext";
+import axios, { AxiosError } from "axios";
 
-  const { question, category, correct_answer, options, code } =
-    questions[index];
-  const checkAnswer = (value: string) => {
-    if (value === correct_answer) {
-      increaseScore();
-      setIsRight({
-        condition: "right",
-        selection: value,
-        disable: true,
-      });
+import "./Quiz.css";
+
+function Quiz() {
+  const { setError, setQuestions } = useGlobalContext();
+  const { isAuthenticated } = useAuth0();
+  let navigate = useNavigate();
+  const { quizname } = useParams();
+  const [quiz, setQuiz] = useState<Questions[] | []>([]);
+
+  async function fetchQuestions() {
+    try {
+      const response = await axios.get<ResponseData>(
+        `https://quiz-backend.rosan.repl.co/api/categories/${quizname}`
+      );
+      console.log(response.data);
+      if (response.data.success && response.status === 200) {
+        setQuiz(response.data.questions);
+        setQuestions(response.data.questions);
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const serverError = err as AxiosError<ServerError>;
+        if (serverError && serverError.response) {
+          console.log(serverError.response.data);
+        }
+      }
+      setError(true);
+      console.log("error found", err);
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchQuestions();
     } else {
-      setIsRight({
-        condition: "wrong",
-        selection: value,
-        disable: true,
-      });
+      navigate(`/`, { replace: true });
     }
-  };
-  const questionNo = (): number | string => {
-    if (index > 8) {
-      return index + 1;
-    }
-    return `0${index + 1}`;
-  };
-  return (
-    <>
-      {!questions.length ? (
-        <Navigate to="/" replace />
-      ) : (
-        <section className="quiz">
-          <div className="quiz-question">
-            <div className="quiz-question__heading">
-              <Text fontSize="2xl" className="quizname">
-                {category} Quiz
-              </Text>
-              <div className="sub-section">
-                <Heading as="h3">
-                  Question{" "}
-                  <span className="current-question-no">{questionNo()}</span>
-                  <span className="total-question">/{questions.length}</span>
-                </Heading>
-                <Text fontSize="2xl">
-                  Score {`${correct}/${questions.length}`}
-                </Text>
-              </div>
-            </div>
-            <div className="quiz-question__body">
-              <Text fontSize="1.25rem">{question}</Text>
-              {code && <Code code={code} />}
-              <div className="options">
-                {options.map((option) => {
-                  return (
-                    <button
-                      key={option}
-                      className={`answer
-                  ${isRight.selection && "btn-style"} 
-                  ${
-                    option === isRight.selection &&
-                    isRight.condition === "right" &&
-                    "right"
-                  } 
-                  ${
-                    option === isRight.selection &&
-                    isRight.condition === "wrong" &&
-                    "wrong"
-                  }`}
-                      disabled={isRight.disable}
-                      onClick={() => checkAnswer(option)}
-                    >
-                      {option}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="quiz-question__footer">
-              <Button
-                colorScheme="teal"
-                variant="ghost"
-                className="quit-btn"
-                onClick={() => {
-                  navigate(`/`);
-                  resetIndex();
-                  resetScore();
-                }}
-              >
-                <span>
-                  <i className="fas fa-power-off"></i>
-                </span>{" "}
-                <span>Quit Quiz</span>
-              </Button>
-              <Button
-                colorScheme="gray"
-                color="black"
-                variant="solid"
-                onClick={() => {
-                  nextQuestion();
-                  setIsRight({
-                    condition: "",
-                    selection: "",
-                    disable: false,
-                  });
-                }}
-              >
-                Next Question
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-    </>
-  );
+  }, [quizname]);
+  return <>{!quiz.length ? <Loader /> : <QuizQuestion questions={quiz} />}</>;
 }
 
 export default Quiz;
