@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useGlobalContext } from "../../context-api/GlobalContext";
 import Loader from "../../shared/components/Loader";
 import QuizQuestion from "../components/QuizQuestion";
@@ -20,7 +20,7 @@ function Quiz() {
   const { quizname } = useParams();
   const [quiz, setQuiz] = useState<Questions[] | []>([]);
 
-  async function fetchQuestions() {
+  const fetchQuestions = useCallback(async () => {
     try {
       const response = await axios.get<ResponseData>(
         `https://quiz-backend.rosan.repl.co/api/categories/${quizname}`
@@ -42,15 +42,17 @@ function Quiz() {
       setError(true);
       console.log("error found", err);
     }
-  }
+  }, [quizname, setError, setQuestions]);
 
+  if (!isAuthenticated) {
+    navigate(`/`, { replace: true });
+  }
   useEffect(() => {
+    console.log("quiz page");
     if (isAuthenticated) {
       fetchQuestions();
-    } else {
-      navigate(`/`, { replace: true });
     }
-  }, [quizname]);
+  }, [quizname, isAuthenticated, fetchQuestions]);
   return <>{!quiz.length ? <Loader /> : <QuizQuestion questions={quiz} />}</>;
 }
 
