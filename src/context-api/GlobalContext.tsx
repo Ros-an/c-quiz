@@ -71,7 +71,6 @@ export const GlobalContextProvider: React.FC = ({ children }) => {
     setLoading(false);
   }
   const categorySelect = (value: string) => {
-    console.log(value);
     if (isAuthenticated) {
       const url = `https://quiz-backend.rosan.repl.co/api/categories/${value}`;
       fetchQuestions(url);
