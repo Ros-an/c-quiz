@@ -25,12 +25,7 @@ function QuizStart() {
             Are you ready to play?
           </Text>
           <div className="buttons">
-            <Link to={`/quiz/${questions[0].category}`}>
-              <Button colorScheme="teal" size="lg">
-                Let's go
-              </Button>{" "}
-            </Link>
-            <Button
+          <Button
               colorScheme="teal"
               size="lg"
               variant="outline"
@@ -38,6 +33,11 @@ function QuizStart() {
             >
               No
             </Button>
+            <Link to={`/quiz/${questions[0].category}`}>
+              <Button colorScheme="teal" size="lg">
+                Let's go
+              </Button>{" "}
+            </Link>
           </div>
         </section>
       )}
