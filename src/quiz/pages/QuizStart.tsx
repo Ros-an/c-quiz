@@ -25,12 +25,13 @@ function QuizStart() {
             Are you ready to play?
           </Text>
           <div className="buttons">
-          <Button
+            <Button
               colorScheme="teal"
               size="lg"
               variant="outline"
               onClick={() => navigate("/")}
-            >
+              mr="0.5rem"
+             >
               No
             </Button>
             <Link to={`/quiz/${questions[0].category}`}>
