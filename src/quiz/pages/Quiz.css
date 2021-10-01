@@ -1,0 +1,112 @@
+.quiz {
+  background: var(--color-head);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  color: var(--color-white);
+  padding-bottom: 5rem;
+}
+
+.quiz .quiz-question {
+  padding: 0 1rem;
+  width: 100%;
+  margin: 1vw 15vw;
+}
+.quiz-question__heading {
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed white;
+}
+.quiz-question__heading .sub-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quiz .quiz-question__heading .quizname {
+  text-transform: capitalize;
+}
+
+.quiz .quiz-question__heading h3 {
+  font-weight: 500;
+  font-size: 2rem;
+}
+.quiz .quiz-question__heading h3 .current-question-no {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.quiz .quiz-question__heading .total-question {
+  color: var(--color-questionbg);
+}
+.quiz .quiz-question__body {
+  padding-top: 2rem;
+}
+
+.quiz .quiz-question__body .options {
+  padding: 1rem 0;
+}
+.quiz .quiz-question__body .options .answer {
+  border: 1px solid var(--color-white);
+  display: block;
+  width: 100%;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: default;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.quiz .quiz-question__body .options .answer:hover {
+  box-shadow: 0 0 2px 2px white;
+  transition: all 0.2s linear;
+}
+
+.quiz .quiz-question__body .options .answer.right {
+  background: #00ff00;
+  color: black;
+  border: 1px solid transparent;
+}
+.quiz .quiz-question__body .options .answer.wrong {
+  background: #f31a1a;
+  color: black;
+  border: 1px solid transparent;
+}
+.quiz .quiz-question__body .options .btn-style {
+  cursor: not-allowed;
+}
+.quiz .quiz-question__body .options .btn-style:hover {
+  box-shadow: none;
+}
+
+.quiz .quiz-question__footer {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quiz .quiz-question__footer .quit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-white);
+}
+.quiz .quiz-question__footer .quit-btn:hover {
+  color: black;
+}
+.quiz .quiz-question__footer .quit-btn span {
+  margin: 0 0.25rem;
+}
+
+@media screen and (max-width: 750px) {
+  .quiz .quiz-question {
+    padding: 0 0.25rem;
+    margin: 0.25rem;
+  }
+  .quiz .quiz-question__body .code {
+    /* width: 99%; */
+    overflow-x: scroll;
+    position: relative;
+  }
+  .quiz .quiz-question__body .options {
+    padding: 0.25rem 0;
+  }
+}

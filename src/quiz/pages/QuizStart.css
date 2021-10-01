@@ -1,0 +1,34 @@
+.quizstart-gateway {
+  position: fixed;
+  background: var(--color-head);
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.quizstart-gateway .box {
+  background: white;
+  box-shadow: 0 0 4px 4px rgba(255, 255, 255, 0.233);
+  border: 1px outset gray;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 35rem;
+  margin: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.quizstart-gateway .box h1 {
+  font-size: 2rem;
+  width: 100%;
+  text-align: center;
+  font-weight: 500;
+}
+.quizstart-gateway .box h2 {
+  font-size: 2rem;
+  text-decoration: underline;
+}

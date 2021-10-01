@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# C Quiz App
+A quiz app for programmer who have interest for C programming language. Its a web app with different category for 4 topics and even authentication(using auth0), means unauthorised user cannot play.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live Demo: [C-Quiz](https://c-programming-quiz.netlify.app/)
 
-## Available Scripts
+[Backend Source Code](https://github.com/Ros-an/quiz-backend)
 
-In the project directory, you can run:
+## Features
+1. User Authorisation and Authentication
+2. Category wise quiz
+   - string
+   - array
+   - operator and precendence
+   - stack and queue
+3. Retrieve questions from brackend
+4. After quiz scoreboard
+5. Can access solution at the end of page
+6. Unauthorised user is directed to login page
+7. Fully responsive
+8. Can quit in middle of quiz
 
-### `npm start`
+## Features to add
+1. More categories
+2. Saving scores to rank player
+3. Timer for each question or for entire quiz.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For now this much, if I find more will add them to this list
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Technology used
+1. ReactJs
+2. TypeScript
+3. ContextAPI
+4. Auth0 for authentication
+5. Express
+6. Chakra UI
+7. React Router v6
+8. Axios
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Steps for getting started
+1. Clone or download C-Quiz repository
+2. Direct to root directory of C-Quiz folder
+3. Install dependencies
+  - `npm install`
+4. Run C-Quiz
+  - `npm start`
